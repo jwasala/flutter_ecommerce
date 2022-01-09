@@ -17,7 +17,7 @@ class CategoryModel extends ChangeNotifier {
   ];
 
   Category? find(int id) {
-    for (var category in _categories) {
+    for (var category in categories) {
       if (category.categoryId == id) {
         return category;
       }
