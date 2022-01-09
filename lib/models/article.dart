@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_ecommerce/models/category.dart';
 
 class Article {
   final int articleId;
@@ -10,14 +11,16 @@ class Article {
   final double price;
   final int categoryId;
 
+  Category? get category => CategoryModel.find(categoryId);
+
   Article(this.articleId, this.name, this.description, this.imagePath,
       this.price, this.categoryId);
 }
 
 class ArticleModel extends ChangeNotifier {
-  final List<Article> _articles = [];
+  static final List<Article> _articles = [];
 
-  Article? find(int id) {
+  static Article? find(int id) {
     for (var article in articles) {
       if (article.articleId == id) {
         return article;
@@ -26,5 +29,6 @@ class ArticleModel extends ChangeNotifier {
     return null;
   }
 
-  UnmodifiableListView<Article> get articles => UnmodifiableListView(_articles);
+  static UnmodifiableListView<Article> get articles =>
+      UnmodifiableListView(_articles);
 }

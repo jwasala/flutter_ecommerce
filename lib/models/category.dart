@@ -10,13 +10,13 @@ class Category {
 }
 
 class CategoryModel extends ChangeNotifier {
-  final List<Category> _categories = [
+  static final List<Category> _categories = [
     Category(1, 'Warzywa'),
     Category(2, 'Owoce'),
     Category(3, 'Bakalie')
   ];
 
-  Category? find(int id) {
+  static Category? find(int id) {
     for (var category in categories) {
       if (category.categoryId == id) {
         return category;
@@ -25,6 +25,6 @@ class CategoryModel extends ChangeNotifier {
     return null;
   }
 
-  UnmodifiableListView<Category> get categories =>
+  static UnmodifiableListView<Category> get categories =>
       UnmodifiableListView(_categories);
 }
