@@ -4,23 +4,43 @@ import 'package:flutter_ecommerce/models/article.dart';
 import 'package:flutter_ecommerce/models/cart_item.dart';
 import 'package:flutter_ecommerce/models/category.dart';
 
-class Shop extends ChangeNotifier {
+class ShopStore extends ChangeNotifier {
   final List<Article> _articles = [
-    Article(1, 'Kalafior', ['apple.jpg'], 3.50, 1),
-    Article(2, 'Ziemniaki', ['apple.jpg'], 3.50, 1),
-    Article(3, 'Sałata', ['apple.jpg'], 3.50, 1),
-    Article(4, 'Jabłka', ['apple.jpg'], 3.50, 2),
-    Article(5, 'Cytryna', ['lime.jpg'], 3.50, 2),
-    Article(6, 'Gruszki', ['pear.jpg', 'pear_2.jpg', 'pear_3.webp'], 3.50, 2),
-    Article(6, 'Mandarynki', ['tangerine.jfif'], 3.50, 2),
-    Article(7, 'Rodzynki', ['apple.jpg'], 3.50, 3),
-    Article(8, 'Żurawina', ['apple.jpg'], 3.50, 3),
-    Article(9, 'Pistacje', ['apple.jpg'], 3.50, 3),
+    Article(1, 'Kalafior', ['assets/apple.jpg'], 3.50, 1),
+    Article(2, 'Ziemniaki', ['assets/apple.jpg'], 3.50, 1),
+    Article(3, 'Sałata', ['assets/apple.jpg'], 3.50, 1),
+    Article(4, 'Jabłka', ['assets/apple.jpg'], 3.50, 2),
+    Article(5, 'Limonka', ['assets/lime.jpg'], 3.50, 2),
+    Article(6, 'Gruszki', ['assets/pear.jpg', 'assets/pear_2.jpg', 'assets/pear_3.webp'], 3.50, 2),
+    Article(7, 'Mandarynki', ['assets/tangerine.jfif'], 3.50, 2),
+    Article(8, 'Rodzynki', ['assets/apple.jpg'], 3.50, 3),
+    Article(9, 'Żurawina', ['assets/apple.jpg'], 3.50, 3),
+    Article(10, 'Pistacje', ['assets/apple.jpg'], 3.50, 3),
+    Article(11, 'Kalafior', ['assets/apple.jpg'], 3.50, 1),
+    Article(12, 'Ziemniaki', ['assets/apple.jpg'], 3.50, 1),
+    Article(13, 'Sałata', ['assets/apple.jpg'], 3.50, 1),
+    Article(14, 'Jabłka', ['assets/apple.jpg'], 3.50, 2),
+    Article(15, 'Limonka', ['assets/lime.jpg'], 3.50, 2),
+    Article(16, 'Gruszki', ['assets/pear.jpg', 'assets/pear_2.jpg', 'assets/pear_3.webp'], 3.50, 2),
+    Article(17, 'Mandarynki', ['assets/tangerine.jfif'], 3.50, 2),
+    Article(18, 'Rodzynki', ['assets/apple.jpg'], 3.50, 3),
+    Article(19, 'Żurawina', ['assets/apple.jpg'], 3.50, 3),
+    Article(20, 'Pistacje', ['assets/apple.jpg'], 3.50, 3),
+    Article(21, 'Kalafior', ['assets/apple.jpg'], 3.50, 1),
+    Article(22, 'Ziemniaki', ['assets/apple.jpg'], 3.50, 1),
+    Article(23, 'Sałata', ['assets/apple.jpg'], 3.50, 1),
+    Article(24, 'Jabłka', ['assets/apple.jpg'], 3.50, 2),
+    Article(25, 'Limonka', ['assets/lime.jpg'], 3.50, 2),
+    Article(26, 'Gruszki', ['assets/pear.jpg', 'assets/pear_2.jpg', 'assets/pear_3.webp'], 3.50, 2),
+    Article(27, 'Mandarynki', ['assets/tangerine.jfif'], 3.50, 2),
+    Article(28, 'Rodzynki', ['assets/apple.jpg'], 3.50, 3),
+    Article(29, 'Żurawina', ['assets/apple.jpg'], 3.50, 3),
+    Article(30, 'Pistacje', ['assets/apple.jpg'], 3.50, 3),
   ];
   final List<Category> _categories = [
-    Category(1, 'Warzywa'),
-    Category(2, 'Owoce'),
-    Category(3, 'Bakalie')
+    Category(1, 'Warzywa', 'Świeże warzywa z krajowych upraw, tylko ekologiczni dostawcy.'),
+    Category(2, 'Owoce', 'Źródła wielu witamin. Dostępne wiele krajowych i importowanych produktów.'),
+    Category(3, 'Bakalie', 'W sumie sam nie wiem, co można o tym napisać.')
   ];
   final List<CartItem> _cartItems = [];
   final Set<int> _favoriteArticlesIds = {};
@@ -31,40 +51,34 @@ class Shop extends ChangeNotifier {
 
   UnmodifiableListView<Article> get articles => UnmodifiableListView(_articles);
 
-  UnmodifiableListView<Category> get categories =>
-      UnmodifiableListView(_categories);
+  UnmodifiableListView<Article> get favorites =>
+      UnmodifiableListView(_articles.where((article) => isArticleFavorite(article.articleId)));
 
-  UnmodifiableListView<CartItem> get cartItems =>
-      UnmodifiableListView(_cartItems);
+  UnmodifiableListView<Category> get categories => UnmodifiableListView(_categories);
+
+  UnmodifiableListView<CartItem> get cartItems => UnmodifiableListView(_cartItems);
 
   double get totalPrice => _cartItems
       .map((cartItem) =>
-          cartItem.count *
-          _articles
-              .firstWhere((article) => article.articleId == cartItem.articleId)
-              .price)
+          cartItem.count * _articles.firstWhere((article) => article.articleId == cartItem.articleId).price)
       .sum;
 
   UnmodifiableListView<Article> getArticlesByCategory(int categoryId) {
-    return UnmodifiableListView(
-        _articles.where((article) => article.categoryId == categoryId));
+    return UnmodifiableListView(_articles.where((article) => article.categoryId == categoryId));
   }
 
-  Article? getArticleById(int articleId) {
-    return _articles
-        .firstWhereOrNull((article) => article.articleId == articleId);
+  Article getArticleById(int articleId) {
+    return _articles.firstWhere((article) => article.articleId == articleId);
   }
 
   void addToCart(int articleId) {
-    Article? article =
-        _articles.firstWhereOrNull((article) => article.articleId == articleId);
+    Article? article = _articles.firstWhereOrNull((article) => article.articleId == articleId);
 
     if (article == null) {
       return;
     }
 
-    CartItem? cartItem = _cartItems
-        .firstWhereOrNull((cartItem) => cartItem.articleId == articleId);
+    CartItem? cartItem = _cartItems.firstWhereOrNull((cartItem) => cartItem.articleId == articleId);
 
     if (cartItem == null) {
       _cartItems.add(CartItem(articleId, 1));
@@ -76,15 +90,13 @@ class Shop extends ChangeNotifier {
   }
 
   void removeFromCart(int articleId) {
-    Article? article =
-        _articles.firstWhereOrNull((article) => article.articleId == articleId);
+    Article? article = _articles.firstWhereOrNull((article) => article.articleId == articleId);
 
     if (article == null) {
       return;
     }
 
-    CartItem? cartItem = _cartItems
-        .firstWhereOrNull((cartItem) => cartItem.articleId == articleId);
+    CartItem? cartItem = _cartItems.firstWhereOrNull((cartItem) => cartItem.articleId == articleId);
 
     if (cartItem != null) {
       if (cartItem.count == 1) {

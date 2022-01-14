@@ -5,6 +5,5 @@ class Article {
   final double price;
   final int categoryId;
 
-  Article(this.articleId, this.name, this.assets,
-      this.price, this.categoryId);
+  Article(this.articleId, this.name, this.assets, this.price, this.categoryId);
 }

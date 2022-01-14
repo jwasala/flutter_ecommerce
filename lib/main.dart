@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => Shop(),
+    create: (context) => ShopStore(),
     child: MaterialApp(
       title: 'Warzywniak',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blue,
       ),
       home: const CategoryIndex(),
       debugShowCheckedModeBanner: false,
