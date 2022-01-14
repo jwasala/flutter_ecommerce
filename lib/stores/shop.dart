@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_ecommerce/models/article.dart';
@@ -40,7 +42,7 @@ class ShopStore extends ChangeNotifier {
   final List<Category> _categories = [
     Category(1, 'Warzywa', 'Świeże warzywa z krajowych upraw, tylko ekologiczni dostawcy.'),
     Category(2, 'Owoce', 'Źródła wielu witamin. Dostępne wiele krajowych i importowanych produktów.'),
-    Category(3, 'Bakalie', 'W sumie sam nie wiem, co można o tym napisać.')
+    Category(3, 'Bakalie', 'Suszone owoce południowe i orzechy, świetne m.in. jako dodatek do ciast.')
   ];
   final List<CartItem> _cartItems = [];
   final Set<int> _favoriteArticlesIds = {};
@@ -57,6 +59,12 @@ class ShopStore extends ChangeNotifier {
   UnmodifiableListView<Category> get categories => UnmodifiableListView(_categories);
 
   UnmodifiableListView<CartItem> get cartItems => UnmodifiableListView(_cartItems);
+
+  int get nextArticleId =>
+      articles.map((article) => article.articleId).reduce((value, element) => max(value, element)) + 1;
+
+  int get nextCategoryId =>
+      categories.map((category) => category.categoryId).reduce((value, element) => max(value, element)) + 1;
 
   double get totalPrice => _cartItems
       .map((cartItem) =>
@@ -117,5 +125,12 @@ class ShopStore extends ChangeNotifier {
   void removeFromFavorites(int articleId) {
     _favoriteArticlesIds.remove(articleId);
     notifyListeners();
+  }
+
+  int addArticle(String name, double price, int categoryId) {
+    var nextId = nextArticleId;
+    var article = Article(nextArticleId, name, ['assets/placeholder.png'], price, categoryId);
+    _articles.add(article);
+    return nextId;
   }
 }

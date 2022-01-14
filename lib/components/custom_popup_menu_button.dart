@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/pages/article/create.dart';
 import 'package:flutter_ecommerce/pages/article/index.dart';
 import 'package:flutter_ecommerce/pages/cart/index.dart';
 import 'package:flutter_ecommerce/pages/category/index.dart';
@@ -25,6 +26,8 @@ class CustomPopupMenuButton extends StatelessWidget {
         } else if (result == 2) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const CartIndex()));
         } else if (result == 3) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ArticleCreate()));
+        } else if (result == 4) {
           showDialog(
               context: context,
               builder: (_) => const AlertDialog(
@@ -70,8 +73,16 @@ class CustomPopupMenuButton extends StatelessWidget {
             value: 2),
         const PopupMenuDivider(),
         const PopupMenuItem<int>(
-          child: ListTile(leading: Icon(Icons.info), title: Text('O aplikacji')),
+          child: ListTile(
+            leading: Icon(Icons.add),
+            title: Text('Dodaj artykuł')
+          ),
           value: 3,
+        ),
+        const PopupMenuDivider(),
+        const PopupMenuItem<int>(
+          child: ListTile(leading: Icon(Icons.info), title: Text('O aplikacji')),
+          value: 4,
         )
       ],
     );
