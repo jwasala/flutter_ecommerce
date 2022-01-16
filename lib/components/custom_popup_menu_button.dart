@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/pages/animation/index.dart';
 import 'package:flutter_ecommerce/pages/article/create.dart';
+import 'package:flutter_ecommerce/pages/article/delete.dart';
 import 'package:flutter_ecommerce/pages/article/index.dart';
 import 'package:flutter_ecommerce/pages/cart/index.dart';
 import 'package:flutter_ecommerce/pages/category/index.dart';
@@ -28,6 +30,10 @@ class CustomPopupMenuButton extends StatelessWidget {
         } else if (result == 3) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const ArticleCreate()));
         } else if (result == 4) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ArticleDelete()));
+        } else if (result == 5) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AnimationIndex()));
+        } else if (result == 6) {
           showDialog(
               context: context,
               builder: (_) => const AlertDialog(
@@ -73,16 +79,21 @@ class CustomPopupMenuButton extends StatelessWidget {
             value: 2),
         const PopupMenuDivider(),
         const PopupMenuItem<int>(
-          child: ListTile(
-            leading: Icon(Icons.add),
-            title: Text('Dodaj artykuł')
-          ),
+          child: ListTile(leading: Icon(Icons.add), title: Text('Dodaj artykuł')),
           value: 3,
+        ),
+        const PopupMenuItem<int>(
+          child: ListTile(leading: Icon(Icons.delete), title: Text('Usuń artykuł')),
+          value: 4,
         ),
         const PopupMenuDivider(),
         const PopupMenuItem<int>(
+          child: ListTile(leading: Icon(Icons.videocam), title: Text('Animacja')),
+          value: 5,
+        ),
+        const PopupMenuItem<int>(
           child: ListTile(leading: Icon(Icons.info), title: Text('O aplikacji')),
-          value: 4,
+          value: 6,
         )
       ],
     );

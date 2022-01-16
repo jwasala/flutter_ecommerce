@@ -77,7 +77,7 @@ class ArticleDetail extends StatelessWidget {
               child: Text('Dodaj do koszyka'.toUpperCase(), style: const TextStyle(fontSize: 18, letterSpacing: 1)),
               style: ElevatedButton.styleFrom(
                   primary: Colors.black,
-                  padding: const EdgeInsets.only(top: 15, bottom: 15),
+                  padding: const EdgeInsets.only(top: 25, bottom: 25),
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero)),
             ),
           ),

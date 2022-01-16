@@ -7,7 +7,7 @@ import 'package:flutter_ecommerce/models/cart_item.dart';
 import 'package:flutter_ecommerce/models/category.dart';
 
 class ShopStore extends ChangeNotifier {
-  final List<Article> _articles = [
+  List<Article> _articles = [
     Article(1, 'Kalafior', ['assets/apple.jpg'], 3.50, 1),
     Article(2, 'Ziemniaki', ['assets/apple.jpg'], 3.50, 1),
     Article(3, 'Sałata', ['assets/apple.jpg'], 3.50, 1),
@@ -44,7 +44,7 @@ class ShopStore extends ChangeNotifier {
     Category(2, 'Owoce', 'Źródła wielu witamin. Dostępne wiele krajowych i importowanych produktów.'),
     Category(3, 'Bakalie', 'Suszone owoce południowe i orzechy, świetne m.in. jako dodatek do ciast.')
   ];
-  final List<CartItem> _cartItems = [];
+  List<CartItem> _cartItems = [];
   final Set<int> _favoriteArticlesIds = {};
 
   bool isArticleFavorite(int articleId) {
@@ -131,6 +131,14 @@ class ShopStore extends ChangeNotifier {
     var nextId = nextArticleId;
     var article = Article(nextArticleId, name, ['assets/placeholder.png'], price, categoryId);
     _articles.add(article);
+    notifyListeners();
     return nextId;
+  }
+
+  void deleteArticle(int articleId) {
+    _favoriteArticlesIds.remove(articleId);
+    _cartItems = _cartItems.where((element) => element.articleId != articleId).toList();
+    _articles = _articles.where((element) => element.articleId != articleId).toList();
+    notifyListeners();
   }
 }
